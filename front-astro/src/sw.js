@@ -113,12 +113,31 @@ async function pageNetworkFirst(request, url) {
 async function assetCacheFirst(request) {
   const cache = await caches.open(await shellName)
   const saved = await cache.match(request)
+
   if (saved) return saved
 
+  const url = new URL(request.url)
+
+  if (
+    url.origin === self.location.origin &&
+    url.pathname.startsWith("/_astro/") &&
+    url.searchParams.has("dpl")
+  ) {
+    url.searchParams.delete("dpl")
+
+    if (shellUrls.has(url.href)) {
+      const precached = await cache.match(url.href)
+
+      if (precached) return precached
+    }
+  }
+
   const response = await fetch(request)
+
   if (response.ok || response.type === "opaque") {
     await remember(cache, request, response.clone())
   }
+
   return response
 }
 
