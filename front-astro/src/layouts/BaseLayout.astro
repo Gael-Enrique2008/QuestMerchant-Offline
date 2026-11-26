@@ -1,0 +1,45 @@
+
+---
+import "../styles/global.css"
+import "../styles/styles.css"
+
+const {
+  title = "Quest Merchant | Tienda de juegos de rol",
+  description = "Descubre manuales, dados, miniaturas y accesorios para tus aventuras de rol en Quest Merchant.",
+  noReferrer = false
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>{title}</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="/icons/quest-192.png" />
+    <link rel="apple-touch-icon" href="/icons/quest-192.png" />
+    <meta name="theme-color" content="#30435f" />
+    <script>
+      import { registerOfflineWorker } from "../lib/registerOfflineWorker"
+      registerOfflineWorker()
+    </script>
+
+    <!-- SEO: descripción de la página -->
+    <meta name="description" content={description} />
+
+    <!-- Política de referencia -->
+    {noReferrer && (
+      <meta name="referrer" content="no-referrer" />
+    )}
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
+

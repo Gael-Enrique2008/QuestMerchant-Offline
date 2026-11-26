@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Home from "../views/client/Home.jsx"
+import InstallApp from "../components/InstallApp.astro"
+export const prerender = true
+---
+
+<BaseLayout title="Quest Merchant | Tienda de juegos de rol">
+  <Home client:only="react" />
+  <InstallApp />
+</BaseLayout>
